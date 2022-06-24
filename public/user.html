@@ -28,16 +28,30 @@
                                                 <button data-id="${el.id}" class="add">Agregar</button>
                                             </div>`
                 });
-                loadEvent()
+                loadEvent(data)
             })
             .catch(e => console.log(e))
 
-        function loadEvent() {
+        function loadEvent(array) {
             const agregarCarrito = document.getElementsByClassName('add')
             for (const btn of agregarCarrito) {
-                btn.onclick = (e => {
-                    console.log(e.target.getAttribute('data-id'))
-                })
+                btn.onclick = (e) => {
+                    //console.log(e.target.getAttribute('data-id'))
+                    const prodID = e.target.getAttribute('data-id')
+                    //console.log(prodID)
+                    const producto = array.find(el => el.id == prodID)
+                    //console.log(producto)
+                    const carrito = 1  //modifica la ID del carrito al cual va a hacer el POST. Actualmente tiene '1' ya que cargue uno solo en el carrito.json
+
+                    fetch(`/api/cart/${carrito}/products`, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(producto)
+                    })
+                        .then(raw => raw.json())
+                        .then(data => console.log(data))
+                        .catch(error => console.log(error))
+                }
             }
         }
     </script>

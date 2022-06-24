@@ -50,6 +50,17 @@ class Contenedor {
         this.data.splice(idx, 1)
         this.write()
     }
+    deleteByIdCart(cart, id) {
+        //console.log(cart)
+        const carrito = this.data.find(p => p.id == cart)
+        const productos = carrito.products
+        const idx = productos.findIndex(p => p.id == id)
+        productos.splice(idx, 1)
+        this.write()
+        //console.log(productos)
+        this.write()
+        //console.log(array)
+    }
     deleteAll() {
         this.data = []
         this.write()
